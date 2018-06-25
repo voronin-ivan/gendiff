@@ -1,0 +1,45 @@
+{
+  "name": "gendiff-by-nage",
+  "version": "0.1.2",
+  "description": "Compares two configuration files and shows a difference",
+  "bin": {
+    "gendiff": "dist/bin/gendiff.js"
+  },
+  "files": [
+    "dist"
+  ],
+  "engines": {
+    "node": ">=9<10"
+  },
+  "scripts": {
+    "dev": "babel-node -- src/bin/gendiff.js",
+    "flow": "flow",
+    "lint": "eslint -- src",
+    "build": "rm -rf ./dist && babel src/ -d dist/",
+    "prepublish": "npm run build"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/voronin-ivan/project-lvl2-s281.git"
+  },
+  "author": "nage",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/voronin-ivan/project-lvl2-s281/issues"
+  },
+  "homepage": "https://github.com/voronin-ivan/project-lvl2-s281#readme",
+  "devDependencies": {
+    "babel-cli": "6.26.0",
+    "babel-eslint": "8.2.5",
+    "babel-preset-env": "1.7.0",
+    "babel-preset-flow": "6.23.0",
+    "babel-preset-stage-0": "6.24.1",
+    "eslint": "5.0.0",
+    "eslint-config-airbnb-base": "13.0.0",
+    "eslint-plugin-import": "2.13.0",
+    "flow-bin": "0.75.0"
+  },
+  "dependencies": {
+    "commander": "2.15.1"
+  }
+}
