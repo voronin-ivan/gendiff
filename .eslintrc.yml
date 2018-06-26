@@ -1,5 +1,6 @@
 env:
     node: true
+    jest: true
 
 parser: babel-eslint
 
@@ -8,3 +9,4 @@ extends:
 
 rules:
     indent: [error, 4]
+    no-console: 0
