@@ -1,29 +1,19 @@
 // @flow
 
-import { readFileSync } from 'fs';
-import { extname } from 'path';
 import { has } from 'lodash';
 import parse from './parser';
 
-const parseFile = (path: string) => {
-    try {
-        return parse(extname(path), readFileSync(path, 'utf8'));
-    } catch (error) {
-        throw new Error(error);
-    }
-};
-
-const printProperty = (
-    symbol: string,
-    key: string,
-    value: string,
-): string => `  ${symbol} ${key}: ${value}\n`;
-
 export default (firstConfigPath: string, secondConfigPath: string): string => {
-    const firstConfig = parseFile(firstConfigPath);
-    const secondConfig = parseFile(secondConfigPath);
+    const firstConfig = parse(firstConfigPath);
+    const secondConfig = parse(secondConfigPath);
 
     const configsKeys: Array<string> = Object.keys({ ...firstConfig, ...secondConfig });
+
+    const printProperty = (
+        symbol: string,
+        key: string,
+        value: string,
+    ): string => `  ${symbol} ${key}: ${value}\n`;
 
     const difference = configsKeys.reduce((acc: string, key: string): string => {
         const firstValue: string = firstConfig[key];
