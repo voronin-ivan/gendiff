@@ -3,34 +3,27 @@
 import { readFileSync } from 'fs';
 import { extname } from 'path';
 import { has } from 'lodash';
-import parse from './core/parser';
+import parse from './parser';
+
+const parseFile = (path: string) => {
+    try {
+        return parse(extname(path), readFileSync(path, 'utf8'));
+    } catch (error) {
+        throw new Error(error);
+    }
+};
+
+const printProperty = (
+    symbol: string,
+    key: string,
+    value: string,
+): string => `  ${symbol} ${key}: ${value}\n`;
 
 export default (firstConfigPath: string, secondConfigPath: string): string => {
-    let firstConfig;
-    let secondConfig;
-
-    try {
-        firstConfig = parse(
-            extname(firstConfigPath),
-            readFileSync(firstConfigPath, 'utf8'),
-        );
-        secondConfig = parse(
-            extname(secondConfigPath),
-            readFileSync(secondConfigPath, 'utf8'),
-        );
-    } catch (error) {
-        return error;
-    }
-
-    if (!firstConfig || !secondConfig) return 'This format isn`t yet supported.';
+    const firstConfig = parseFile(firstConfigPath);
+    const secondConfig = parseFile(secondConfigPath);
 
     const configsKeys: Array<string> = Object.keys({ ...firstConfig, ...secondConfig });
-
-    const printProperty = (
-        symbol: string,
-        key: string,
-        value: string,
-    ): string => `  ${symbol} ${key}: ${value}\n`;
 
     const difference = configsKeys.reduce((acc: string, key: string): string => {
         const firstValue: string = firstConfig[key];
@@ -38,15 +31,15 @@ export default (firstConfigPath: string, secondConfigPath: string): string => {
 
         if (has(firstConfig, key) && has(secondConfig, key)) {
             return firstValue === secondValue
-                ? acc + printProperty(' ', key, firstValue)
-                : acc + printProperty('+', key, secondValue) + printProperty('-', key, firstValue);
+                ? `${acc}${printProperty(' ', key, firstValue)}`
+                : `${acc}${printProperty('+', key, secondValue)}${printProperty('-', key, firstValue)}`;
         }
 
         if (has(firstConfig, key)) {
-            return acc + printProperty('-', key, firstValue);
+            return `${acc}${printProperty('-', key, firstValue)}`;
         }
 
-        return acc + printProperty('+', key, secondValue);
+        return `${acc}${printProperty('+', key, secondValue)}`;
     }, '\n');
 
     return `{${difference}}`;
