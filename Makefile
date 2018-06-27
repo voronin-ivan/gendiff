@@ -11,7 +11,7 @@ check-types:
 	npm run flow
 
 lint:
-	npm run lint
+	npm run lint .
 
 build:
 	npm run build

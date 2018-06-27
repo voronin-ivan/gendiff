@@ -16,7 +16,7 @@
     "start": "babel-node",
     "test": "jest",
     "flow": "flow",
-    "lint": "eslint .",
+    "lint": "eslint",
     "build": "rm -rf ./dist && babel src/ -d dist/",
     "prepublishOnly": "npm test && npm run build"
   },
@@ -32,7 +32,7 @@
   "homepage": "https://github.com/voronin-ivan/project-lvl2-s281#readme",
   "husky": {
     "hooks": {
-      "pre-commit": "npm test && npm run flow && npm run lint"
+      "pre-commit": "npm test && npm run flow && npm run lint ."
     }
   },
   "devDependencies": {
