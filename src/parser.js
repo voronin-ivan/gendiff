@@ -1,16 +1,16 @@
 import { safeLoad } from 'js-yaml';
 
 const parsers = {
-    '.json': JSON.parse,
-    '.yml': safeLoad,
+  '.json': JSON.parse,
+  '.yml': safeLoad,
 };
 
 export default (format, file) => {
-    const parse = parsers[format];
+  const parse = parsers[format];
 
-    if (!parse) {
-        throw new Error(`${format} is not yet supported.`);
-    }
+  if (!parse) {
+    throw new Error(`${format} is not yet supported.`);
+  }
 
-    return parse(file);
+  return parse(file);
 };
