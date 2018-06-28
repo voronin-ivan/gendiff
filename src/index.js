@@ -1,15 +1,23 @@
 // @flow
 
+import { readFileSync } from 'fs';
+import { extname } from 'path';
 import { has } from 'lodash';
 import parse from './parser';
 
 export default (firstConfigPath: string, secondConfigPath: string): string => {
-    const firstConfig = parse(firstConfigPath);
-    const secondConfig = parse(secondConfigPath);
+    const firstConfig = parse(
+        extname(firstConfigPath),
+        readFileSync(firstConfigPath),
+    );
+    const secondConfig = parse(
+        extname(secondConfigPath),
+        readFileSync(secondConfigPath),
+    );
 
     const configsKeys: Array<string> = Object.keys({ ...firstConfig, ...secondConfig });
 
-    const printProperty = (
+    const renderString = (
         symbol: string,
         key: string,
         value: string,
@@ -21,15 +29,15 @@ export default (firstConfigPath: string, secondConfigPath: string): string => {
 
         if (has(firstConfig, key) && has(secondConfig, key)) {
             return firstValue === secondValue
-                ? `${acc}${printProperty(' ', key, firstValue)}`
-                : `${acc}${printProperty('+', key, secondValue)}${printProperty('-', key, firstValue)}`;
+                ? `${acc}${renderString(' ', key, firstValue)}`
+                : `${acc}${renderString('+', key, secondValue)}${renderString('-', key, firstValue)}`;
         }
 
         if (has(firstConfig, key)) {
-            return `${acc}${printProperty('-', key, firstValue)}`;
+            return `${acc}${renderString('-', key, firstValue)}`;
         }
 
-        return `${acc}${printProperty('+', key, secondValue)}`;
+        return `${acc}${renderString('+', key, secondValue)}`;
     }, '\n');
 
     return `{${difference}}`;
