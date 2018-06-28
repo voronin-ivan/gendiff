@@ -12,4 +12,7 @@ const diffTest = (formatBefore, formatAfter = formatBefore) => () => {
 
 test('JSON diff', diffTest('json'));
 test('yaml diff', diffTest('yml'));
+test('ini diff', diffTest('ini'));
 test('JSON && yaml diff', diffTest('json', 'yml'));
+test('JSON && ini diff', diffTest('json', 'ini'));
+test('yaml && ini diff', diffTest('yml', 'ini'));

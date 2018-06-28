@@ -2,20 +2,24 @@
 
 import { readFileSync } from 'fs';
 import { extname } from 'path';
-import { has } from 'lodash';
+import { union, has } from 'lodash';
 import parse from './parser';
 
 export default (firstConfigPath: string, secondConfigPath: string): string => {
   const firstConfig = parse(
     extname(firstConfigPath),
-    readFileSync(firstConfigPath),
-  );
-  const secondConfig = parse(
-    extname(secondConfigPath),
-    readFileSync(secondConfigPath),
+    readFileSync(firstConfigPath).toString(),
   );
 
-  const configsKeys: Array<string> = Object.keys({ ...firstConfig, ...secondConfig });
+  const secondConfig = parse(
+    extname(secondConfigPath),
+    readFileSync(secondConfigPath).toString(),
+  );
+
+  const configsKeys: Array<string> = union(
+    Object.keys(firstConfig),
+    Object.keys(secondConfig),
+  );
 
   const renderString = (
     symbol: string,

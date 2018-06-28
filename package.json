@@ -1,6 +1,6 @@
 {
   "name": "gendiff-by-nage",
-  "version": "0.1.9",
+  "version": "0.2.0",
   "description": "Compares two configuration files and shows a difference",
   "main": "dist/index.js",
   "bin": {
@@ -50,6 +50,7 @@
   },
   "dependencies": {
     "commander": "2.15.1",
+    "ini": "1.3.5",
     "js-yaml": "3.12.0",
     "lodash": "4.17.10"
   }
