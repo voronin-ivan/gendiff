@@ -4,9 +4,13 @@ import { readFileSync } from 'fs';
 import { extname } from 'path';
 import parse from './core/parser';
 import buildAst from './core/astBuilder';
-import render from './core/render';
+import render from './render';
 
-export default (firstConfigPath: string, secondConfigPath: string): string => {
+export default (
+  firstConfigPath: string,
+  secondConfigPath: string,
+  format: string = 'deep',
+): string => {
   const firstConfig = parse(
     extname(firstConfigPath),
     readFileSync(firstConfigPath).toString(),
@@ -19,5 +23,5 @@ export default (firstConfigPath: string, secondConfigPath: string): string => {
 
   const ast = buildAst(firstConfig, secondConfig);
 
-  return render(ast);
+  return render(format, ast);
 };

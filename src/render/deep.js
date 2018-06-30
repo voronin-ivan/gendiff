@@ -1,6 +1,6 @@
 import { isPlainObject } from 'lodash';
 
-const renderNode = (node, depth) => {
+const renderNode = (nodes, depth) => {
   const indent = (count = 0) => `${' '.repeat(depth * 4 + count)}`;
 
   const stringify = (value) => {
@@ -15,17 +15,17 @@ const renderNode = (node, depth) => {
   const renderString = (symbol, key, value) =>
     `${indent(2)}${symbol} ${key}: ${stringify(value)}\n`;
 
-  const difference = Object.keys(node).reduce((acc, key) => {
-    const { type, value } = node[key];
+  const difference = nodes.reduce((acc, node) => {
+    const { key, value } = node;
 
-    switch (type) {
+    switch (node.type) {
       case 'deep':
-        return `${acc}${indent(4)}${key}: ${renderNode(value, depth + 1)}\n`;
+        return `${acc}${indent(4)}${key}: ${renderNode(node.children, depth + 1)}\n`;
       case 'same':
         return `${acc}${renderString(' ', key, value)}`;
       case 'changed':
-        const oldProperty = renderString('-', key, value.oldValue);
-        const newProperty = renderString('+', key, value.newValue);
+        const oldProperty = renderString('-', key, node.oldValue);
+        const newProperty = renderString('+', key, node.newValue);
 
         return `${acc}${oldProperty}${newProperty}`;
       case 'added':
