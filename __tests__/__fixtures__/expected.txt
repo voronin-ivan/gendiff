@@ -1,8 +1,39 @@
 {
-    host: hexlet.io
-  + timeout: 20
-  - timeout: 50
-  - proxy: 123.234.53.22
-  - follow: false
-  + verbose: true
+  - blah: 5
+    common: {
+        setting1: Value 1
+      - setting2: 200
+      - setting3: true
+      + setting3: {
+            key: value
+            key2: value2
+        }
+        setting6: {
+            key: value
+          + ops: vops
+        }
+      + setting4: blah blah
+      + setting5: {
+            key5: value5
+        }
+    }
+    group1: {
+      - baz: bas
+      + baz: bars
+        foo: bar
+        nest: {
+          - key: value
+          + key: {
+                wow: nice
+            }
+          + key2: value
+        }
+    }
+  - group2: {
+        abc: 12345
+    }
+  + follow: false
+  + group3: {
+        fee: 100500
+    }
 }

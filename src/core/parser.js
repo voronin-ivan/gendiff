@@ -7,12 +7,12 @@ const parsers = {
   '.ini': decode,
 };
 
-export default (format, file) => {
+export default (format, data) => {
   const parse = parsers[format];
 
   if (!parse) {
     throw new Error(`${format} is not yet supported.`);
   }
 
-  return parse(file);
+  return parse(data);
 };
