@@ -14,12 +14,17 @@ const diffTest = (
     .toEqual(compareDiff(before(extensionBefore), after(extensionAfter), format));
 };
 
-test('JSON deep diff', diffTest('deep', 'json'));
-test('yaml deep diff', diffTest('deep', 'yml'));
-test('ini deep diff', diffTest('deep', 'ini'));
-test('JSON && yaml deep diff', diffTest('deep', 'json', 'yml'));
+test('deep format (.json)', diffTest('deep', 'json'));
+test('deep format (.yml)', diffTest('deep', 'yml'));
+test('deep format (.ini)', diffTest('deep', 'ini'));
+test('deep format (.json && .yml)', diffTest('deep', 'json', 'yml'));
 
-test('JSON plain diff', diffTest('plain', 'json'));
-test('yaml plain diff', diffTest('plain', 'yml'));
-test('ini plain diff', diffTest('plain', 'ini'));
-test('yaml && ini deep diff', diffTest('plain', 'yml', 'ini'));
+test('plain format (.json)', diffTest('plain', 'json'));
+test('plain format (.yml)', diffTest('plain', 'yml'));
+test('plain format (.ini)', diffTest('plain', 'ini'));
+test('plain format (.yml && .ini)', diffTest('plain', 'yml', 'ini'));
+
+test('json format (.json)', diffTest('json', 'json'));
+test('json format (.yml)', diffTest('json', 'yml'));
+test('json format (.ini)', diffTest('json', 'ini'));
+test('json format (.yml && .ini)', diffTest('json', 'yml', 'ini'));
