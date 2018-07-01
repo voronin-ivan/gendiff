@@ -13,30 +13,28 @@ const renderNode = (nodes, depth) => {
   };
 
   const renderString = (symbol, key, value) =>
-    `${indent(2)}${symbol} ${key}: ${stringify(value)}\n`;
+    `${indent(2)}${symbol} ${key}: ${stringify(value)}`;
 
-  const difference = nodes.reduce((acc, node) => {
+  const properties = nodes.map((node) => {
     const { key, value } = node;
 
     switch (node.type) {
       case 'deep':
-        return `${acc}${indent(4)}${key}: ${renderNode(node.children, depth + 1)}\n`;
-      case 'same':
-        return `${acc}${renderString(' ', key, value)}`;
+        return `${indent(4)}${key}: ${renderNode(node.children, depth + 1)}`;
       case 'changed':
         const oldProperty = renderString('-', key, node.oldValue);
         const newProperty = renderString('+', key, node.newValue);
-
-        return `${acc}${oldProperty}${newProperty}`;
+        return `${oldProperty}\n${newProperty}`;
       case 'added':
-        return `${acc}${renderString('+', key, value)}`;
+        return `${renderString('+', key, value)}`;
       case 'removed':
-        return `${acc}${renderString('-', key, value)}`;
-      default: return acc;
+        return `${renderString('-', key, value)}`;
+      default:
+        return `${renderString(' ', key, value)}`;
     }
-  }, '\n');
+  });
 
-  return `{${difference}${indent()}}`;
+  return `{\n${properties.join('\n')}\n${indent()}}`;
 };
 
 export default ast => renderNode(ast, 0);

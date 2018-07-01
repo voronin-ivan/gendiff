@@ -4,7 +4,7 @@ import { readFileSync } from 'fs';
 import { extname } from 'path';
 import parse from './core/parser';
 import buildAst from './core/astBuilder';
-import render from './render';
+import render from './renderers';
 
 export default (
   firstConfigPath: string,

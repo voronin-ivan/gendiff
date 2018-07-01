@@ -9,6 +9,6 @@ gendiff
   .arguments('<firstConfig> <secondConfig>')
   .option('-f, --format [type]', 'output format')
   .action((firstConfig, secondConfig) => {
-    console.log(compareDiff(firstConfig, secondConfig));
+    console.log(compareDiff(firstConfig, secondConfig, gendiff.format));
   })
   .parse(process.argv);
