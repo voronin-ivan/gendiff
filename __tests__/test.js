@@ -2,8 +2,8 @@ import { readFileSync } from 'fs';
 import compareDiff from '../src';
 
 const expected = format => `__tests__/__fixtures__/${format}Diff.txt`;
-const before = format => `__tests__/__fixtures__/before.${format}`;
-const after = format => `__tests__/__fixtures__/after.${format}`;
+const before = extension => `__tests__/__fixtures__/before.${extension}`;
+const after = extension => `__tests__/__fixtures__/after.${extension}`;
 
 const diffTest = (
   format,
