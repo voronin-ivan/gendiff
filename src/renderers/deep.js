@@ -1,6 +1,6 @@
-import { isPlainObject } from 'lodash';
+import { isPlainObject, flatten } from 'lodash';
 
-const renderNode = (nodes, depth) => {
+const render = (nodes, depth) => {
   const indent = (count = 0) => `${' '.repeat(depth * 4 + count)}`;
 
   const stringify = (value) => {
@@ -20,11 +20,12 @@ const renderNode = (nodes, depth) => {
 
     switch (node.type) {
       case 'deep':
-        return `${indent(4)}${key}: ${renderNode(node.children, depth + 1)}`;
+        return `${indent(4)}${key}: ${render(node.children, depth + 1)}`;
       case 'changed':
-        const oldProperty = renderString('-', key, node.oldValue);
-        const newProperty = renderString('+', key, node.newValue);
-        return `${oldProperty}\n${newProperty}`;
+        return [
+          renderString('-', key, node.oldValue),
+          renderString('+', key, node.newValue),
+        ];
       case 'added':
         return `${renderString('+', key, value)}`;
       case 'removed':
@@ -34,7 +35,9 @@ const renderNode = (nodes, depth) => {
     }
   });
 
-  return `{\n${properties.join('\n')}\n${indent()}}`;
+  const result = flatten(properties).join('\n');
+
+  return `{\n${result}\n${indent()}}`;
 };
 
-export default ast => renderNode(ast, 0);
+export default ast => render(ast, 0);
