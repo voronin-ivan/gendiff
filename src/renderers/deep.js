@@ -1,26 +1,26 @@
 import { isPlainObject, flatten } from 'lodash';
 
+const indent = depth => `${' '.repeat(depth * 4)}`;
+
+const stringify = (value, depth) => {
+  if (!isPlainObject(value)) return value;
+
+  const difference = Object.keys(value).reduce((acc, key) =>
+    `${acc}${indent(depth + 2)}${key}: ${value[key]}\n`, '\n');
+
+  return `{${difference}${indent(depth + 1)}}`;
+};
+
 const render = (nodes, depth) => {
-  const indent = (count = 0) => `${' '.repeat(depth * 4 + count)}`;
-
-  const stringify = (value) => {
-    if (!isPlainObject(value)) return value;
-
-    const difference = Object.keys(value).reduce((acc, key) =>
-      `${acc}${indent(8)}${key}: ${value[key]}\n`, '\n');
-
-    return `{${difference}${indent(4)}}`;
-  };
-
   const renderString = (symbol, key, value) =>
-    `${indent(2)}${symbol} ${key}: ${stringify(value)}`;
+    `${indent(depth + 0.5)}${symbol} ${key}: ${stringify(value, depth)}`;
 
   const properties = nodes.map((node) => {
     const { key, value } = node;
 
     switch (node.type) {
       case 'deep':
-        return `${indent(4)}${key}: ${render(node.children, depth + 1)}`;
+        return `${indent(depth + 1)}${key}: ${render(node.children, depth + 1)}`;
       case 'changed':
         return [
           renderString('-', key, node.oldValue),
@@ -37,7 +37,7 @@ const render = (nodes, depth) => {
 
   const result = flatten(properties).join('\n');
 
-  return `{\n${result}\n${indent()}}`;
+  return `{\n${result}\n${indent(depth)}}`;
 };
 
 export default ast => render(ast, 0);
