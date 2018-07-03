@@ -6,8 +6,30 @@
 
 Compares two configuration files and shows a difference
 
+#### Supported extensions
+- json
+- yaml
+- ini
+
 ### Installation
     $ npm install gendiff-by-nage -g
 
 ### Usage
-    $ gendiff [options] <firstConfig> <secondConfig>
+    $ gendiff [format] <firstConfig> <secondConfig>
+
+### Example
+    $ gendiff before.json after.json
+
+### Options
+```
+-V, --version
+-h, --help
+-f, --format [type]
+```
+
+#### Output formats
+- deep (by default)
+- plain
+- json
+
+[![asciicast](https://asciinema.org/a/vZWWWujg0nMsB2yvg4OeT74eG.png)](https://asciinema.org/a/vZWWWujg0nMsB2yvg4OeT74eG)

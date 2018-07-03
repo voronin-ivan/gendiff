@@ -4,6 +4,7 @@ import { decode } from 'ini';
 const parsers = {
   '.json': JSON.parse,
   '.yml': safeLoad,
+  '.yaml': safeLoad,
   '.ini': decode,
 };
 

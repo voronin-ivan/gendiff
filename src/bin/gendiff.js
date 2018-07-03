@@ -7,7 +7,7 @@ gendiff
   .version(version)
   .description(description)
   .arguments('<firstConfig> <secondConfig>')
-  .option('-f, --format [type]', 'output format')
+  .option('-f, --format [type]', 'output format (deep, plain or json)')
   .action((firstConfig, secondConfig) => {
     console.log(compareDiff(firstConfig, secondConfig, gendiff.format));
   })
