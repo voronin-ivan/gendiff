@@ -6,6 +6,14 @@ import parse from './core/parser';
 import buildAst from './core/astBuilder';
 import render from './renderers';
 
+type Node = {
+  key: string,
+  type: number,
+  value: ?any,
+  oldValue: ?any,
+  children: ?Array<Node>
+};
+
 export default (
   firstConfigPath: string,
   secondConfigPath: string,
@@ -21,7 +29,7 @@ export default (
     readFileSync(secondConfigPath).toString(),
   );
 
-  const ast = buildAst(firstConfig, secondConfig);
+  const ast: Array<Node> = buildAst(firstConfig, secondConfig);
 
   return render(format, ast);
 };
